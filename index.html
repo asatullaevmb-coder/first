@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+ <style>
+  body 
+  {
+            background-color: darkred;
+            color: #ffffff;
+            font-family: sans-serif;
+        }
+    h1 {
+        color: gold;
+        text-align: center;
+        font-size: 30px;
+        }
+        p {
+            color: gold;
+            text-align: center;
+            font-size: 24px;
+        }
+
+    img {
+    display: block;
+    width: 200px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    margin: 20px auto 30px auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+.my-button {
+    display: block;
+    width: 200px;
+    margin: 30px auto;
+    padding: 15px 20px;
+    background-color: fuchsia;
+    color: whitesmoke;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: 0.3s;
+    }
+    .my-button:hover {
+        background-color: whitesmoke;
+        color: fuchsia;
+        cursor: pointer;
+        font-size: 20px;
+        width: 220px;
+    }
+    .blue-btn {
+        background-color: blue;
+        color: grey;
+        width: 200px;
+    }
+    .blue-btn:hover {
+        background-color: grey;
+        color: blue;
+        font-size: 20px;
+        width: 220px;
+    }
+    .green-btn {
+        background-color: yellow;
+        color: blueviolet;
+        width: 200px;
+    }
+    .green-btn:hover {
+        background-color: blueviolet;
+        color: yellow;
+        font-size: 20px;
+        width: 220px;
+    }
+.channel-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 650px;
+        margin: 30px auto;
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        border-radius: 16px;
+    }
+
+    .channel-info {
+        margin-left: 30px;
+        text-align: left;
+    }
+    
+    .channel-info h2 {
+        color: gold;
+        margin: 0 0 5px 0;
+        font-size: 22px;
+    }
+
+    .channel-desc {
+        color: #ffffff;
+        text-align: left;
+        font-size: 16px;
+        margin: 0;
+    }
+</style>  
+</head>
+<body>
+  <h1>Добро пожаловать!</h1>
+<p>Мои телеграм каналы:</p>
+
+<div class="channel-card">
+      <img src="https://cdn4.telesco.pe/file/msipfavXA8w5pP6_lA63W8TSRODqqgsLqzlFLZ50InyHUeylgebqBo9u0_W4EksbZrgdek8AKxxFzy7oKTNUhwrrlHECZSd939_3jpnWr31bsx-upq0-yQoKTjormcvaJaABem4CbQVk3Heu9zIXazU0XWpOqDcdIOr615lYf4v-HOX4U9I0KjNWI2CCZydjy86TEdbGxZIn5Gfs9i9r7SGzcVD8tph5IDWr1e9GpzF19ik_xmAyASDO4hCM4dzAY3BW-u9taSWvYjlb__g5wY1zTYhHMzdskBTR2pZ8AnAyfOHiyyYztfZjv49Rzxd-RLEY1yDWivsTKkHqnTn5BA.jpg" alt="картина не загрузилась">
+      
+      <div class="channel-info">
+          <h2>MyTunes</h2>
+          <p class="channel-desc">Здесь вы найдете отличную музыку, топовые треки и ежедневные подборки для вашего настроения.</p>
+          <a href="https://t.me/playlistbyleo" target="_blank" class="my-button">Перейти в тг канал</a>
+      </div>
+  </div>
+
+  <div class="channel-card">
+      <img src="https://cdn4.telesco.pe/file/S9o4_TWZ9mMeAi28lkqoXdfhdBQqd5zMdNlX7XnZ3IwcrpDCuC2UhkZStAgeBGX5jSM4K89hrlLXLysz8VosSxIyVaVxerufypOp6QE5oiek9iHVdJi_ij35Dha3diB_1eQoGvr67GoA9cyHwVO61BryBs9jsv2V1hSAE_8izddVP-fGBZqrklewUPk8bxQkDp-IDfDami51i2EK-jrNxGM80hL9-L8vUIW7kFC7Zin71FaD_2gB9sqpPvbwPTl4shU2fM-TLppfGRWH-SMrNo5dZwEAuft38nVzPp0-JtIseMAikiiooMcbsBPXLHF3_oesUT-34izi1mJxQasqmQ.jpg" alt="картина не загрузилась">
+      
+      <div class="channel-info">
+          <h2>Jah Khalib</h2>
+          <p class="channel-desc">Всё о творчестве Jah Khalib, тексты песен, новые релизы, клипы и душевные треки.</p>
+          <a href="https://t.me/JahKhalib_Baha" target="_blank" class="my-button blue-btn">Перейти в тг канал</a>
+      </div>
+  </div>
+
+  <div class="channel-card">
+      <img src="https://cdn4.telesco.pe/file/tlQ2ZigQ5euS_Uz9hAZ-JldcshTNY6T4KZ3G7Nrlsb-s4yT7PpGriJDvwi7cRNWvgYcfN6l6TXXvvcHQwDliPt3rfVGovwRgVIG6-3_UWd3uLHgrew7uJWjvSBoFczc0FudXimazoH68Xk74-E9MplTQFE2VgEtodEeb2NZ5_0wq3IzQ8D_5nA4Tq3Tvf3BrTRsQbbr49GQOB5fHaPI_WxJ34w9WN_klVeVtCN6ouSh-SSYxDNniqXIjED7CBflJnLgAp5pIfGnZ0IltvZv1S_lw1JzRYf9B50AD2htBI1c5gBA81zXM7NefJ_D2KGllZUWR8SFuIxXyCeZ9TVg0KQ.jpg" alt="картина не загрузилась">
+      
+      <div class="channel-info">
+          <h2>Баста</h2>
+          <p class="channel-desc">Главный канал ценителей Басты, Ноггано и Nintendo. Все культовые проекты в одном месте.</p>
+          <a href="https://t.me/bastanagganoN1NT3ND0" target="_blank" class="my-button green-btn">Перейти в тг канал</a>
+      </div>
+  </div>
+
+</body>
+</html>
