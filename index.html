@@ -4,46 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
- <style>
-  body 
-  {
-            background-color: darkred;
-            color: #ffffff;
-            font-family: sans-serif;
-        }
+<style>
+    body {
+        background-color: darkred;
+        color: #ffffff;
+        font-family: sans-serif;
+    }
     h1 {
         color: gold;
         text-align: center;
         font-size: 30px;
-        }
-        p {
-            color: gold;
-            text-align: center;
-            font-size: 24px;
-        }
+    }
+    p {
+        color: gold;
+        text-align: center;
+        font-size: 24px;
+    }
 
     img {
-    display: block;
-    width: 200px;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    margin: 20px auto 30px auto;
-    border-radius: 50%;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        display: block;
+        width: 150px; /* Сделали базовый размер чуть аккуратнее для десктопа */
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        margin: 0;   /* ИСПРАВЛЕНО: убрали старые отступы, мешавшие флексбоксу */
+        border-radius: 50%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
-.my-button {
-    display: block;
-    width: 200px;
-    margin: 30px auto;
-    padding: 15px 20px;
-    background-color: fuchsia;
-    color: whitesmoke;
-    text-align: center;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: 0.3s;
+
+    .my-button {
+        display: inline-block; /* Изменили на inline-block, чтобы кнопка не растягивалась на весь экран */
+        width: 200px;
+        margin-top: 15px;
+        padding: 15px 20px;
+        background-color: fuchsia;
+        color: whitesmoke;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        transition: 0.3s;
     }
     .my-button:hover {
         background-color: whitesmoke;
@@ -74,7 +74,8 @@
         font-size: 20px;
         width: 220px;
     }
-.channel-card {
+
+    .channel-card {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -102,13 +103,39 @@
         font-size: 16px;
         margin: 0;
     }
+
+    /* Адаптив под мобильные экраны */
+    @media (max-width: 600px) {
+        .channel-card {
+            flex-direction: column;
+            text-align: center;
+            margin: 20px 15px;
+            padding: 15px;
+        }
+        .channel-info {
+            margin-left: 0;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .channel-desc {
+            text-align: center;
+        }
+        img {
+            width: 130px;
+        }
+        .my-button {
+            width: 100%;
+            max-width: 200px;
+            margin: 15px auto 0 auto;
+        }
+    }
 </style>  
 </head>
 <body>
   <h1>Добро пожаловать!</h1>
-<p>Мои телеграм каналы:</p>
+  <p>Мои телеграм каналы:</p>
 
-<div class="channel-card">
+  <div class="channel-card">
       <img src="https://cdn4.telesco.pe/file/msipfavXA8w5pP6_lA63W8TSRODqqgsLqzlFLZ50InyHUeylgebqBo9u0_W4EksbZrgdek8AKxxFzy7oKTNUhwrrlHECZSd939_3jpnWr31bsx-upq0-yQoKTjormcvaJaABem4CbQVk3Heu9zIXazU0XWpOqDcdIOr615lYf4v-HOX4U9I0KjNWI2CCZydjy86TEdbGxZIn5Gfs9i9r7SGzcVD8tph5IDWr1e9GpzF19ik_xmAyASDO4hCM4dzAY3BW-u9taSWvYjlb__g5wY1zTYhHMzdskBTR2pZ8AnAyfOHiyyYztfZjv49Rzxd-RLEY1yDWivsTKkHqnTn5BA.jpg" alt="картина не загрузилась">
       
       <div class="channel-info">
