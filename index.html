@@ -5,39 +5,139 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 <style>
+    /* ==========================================
+       БАЗОВЫЕ НАСТРОЙКИ СТРАНИЦЫ
+       ========================================== */
+    html {
+        scroll-behavior: smooth; /* Плавная прокрутка при клике на меню */
+    }
     body {
         background-color: darkred;
         color: #ffffff;
         font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+        transition: background-color 0.4s, color 0.4s;
     }
-    h1 {
-        color: gold;
-        text-align: center;
-        font-size: 30px;
-    }
-    p {
-        color: gold;
-        text-align: center;
-        font-size: 24px;
+    
+    /* Контейнер ограничивает контент по ширине и центрирует его */
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
     }
 
+    h1, h2 {
+        color: gold;
+        text-align: center;
+    }
+    h1 { font-size: 36px; }
+    h2 { font-size: 28px; margin-top: 40px; }
+    
+    p {
+        text-align: center;
+        font-size: 18px;
+        line-height: 1.6;
+    }
+
+    /* ==========================================
+       1. ПРИЛИПАЮЩЕЕ НАВИГАЦИОННОЕ МЕНЮ
+       ========================================== */
+    .navbar {
+        position: -webkit-sticky; /* Поддержка Safari */
+        position: sticky;
+        top: 0;
+        background-color: rgba(139, 0, 0, 0.95); /* Полупрозрачный бордовый фон */
+        backdrop-filter: blur(5px); /* Легкое размытие заднего плана */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        z-index: 1000;
+        transition: background-color 0.4s;
+    }
+    .logo {
+        font-weight: bold;
+        font-size: 22px;
+        color: gold;
+    }
+    .nav-links a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    .nav-links a:hover {
+        color: gold;
+    }
+    /* Кнопка смены тем внутри меню */
+    .theme-btn-nav {
+        background: transparent;
+        border: 1px solid gold;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+    }
+    .theme-btn-nav:hover {
+        transform: scale(1.1);
+    }
+
+    /* ==========================================
+       2. КАРТОЧКИ И ЭФФЕКТЫ ПРИ НАВЕДЕНИИ
+       ========================================== */
     img {
         display: block;
-        width: 150px; /* Сделали базовый размер чуть аккуратнее для десктопа */
+        width: 120px;
         aspect-ratio: 1 / 1;
         object-fit: cover;
-        margin: 0;   /* ИСПРАВЛЕНО: убрали старые отступы, мешавшие флексбоксу */
         border-radius: 50%;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+    .channel-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        border-radius: 16px;
+        margin: 25px auto;
+        max-width: 650px;
+        
+        /* Важно для плавного эффекта парения */
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.4s;
+        
+        /* Анимация появления при загрузке */
+        opacity: 0;
+        animation: slideUp 0.8s ease-out forwards;
     }
 
+    /* СВЕЧЕНИЕ И ПРИПОДЫМАНИЕ КАРТОЧКИ ПРИ НАВЕДЕНИИ 🌟 */
+    .channel-card:hover {
+        transform: translateY(-8px); /* Карточка приподнимается вверх на 8 пикселей */
+        box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3); /* Золотистое свечение */
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .channel-info { margin-left: 25px; text-align: left; }
+    .channel-info h2 { color: gold; margin: 0 0 5px 0; text-align: left; font-size: 22px; }
+    .channel-desc { color: #ffffff; font-size: 15px; margin: 0; text-align: left; }
+
     .my-button {
-        display: inline-block; /* Изменили на inline-block, чтобы кнопка не растягивалась на весь экран */
-        width: 200px;
+        display: inline-block;
+        width: 180px;
         margin-top: 15px;
-        padding: 15px 20px;
-        background-color: fuchsia;
-        color: whitesmoke;
+        padding: 12px 15px;
+        background-color: gold;
+        color: blueviolet;
         text-align: center;
         text-decoration: none;
         font-weight: bold;
@@ -45,125 +145,193 @@
         box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         transition: 0.3s;
     }
-    .my-button:hover {
-        background-color: whitesmoke;
-        color: fuchsia;
-        cursor: pointer;
-        font-size: 20px;
-        width: 220px;
-    }
-    .blue-btn {
-        background-color: blue;
-        color: grey;
-        width: 200px;
-    }
-    .blue-btn:hover {
-        background-color: grey;
-        color: blue;
-        font-size: 20px;
-        width: 220px;
-    }
-    .green-btn {
-        background-color: yellow;
-        color: blueviolet;
-        width: 200px;
-    }
-    .green-btn:hover {
-        background-color: blueviolet;
-        color: yellow;
-        font-size: 20px;
-        width: 220px;
+    .my-button:hover { 
+        background-color: blueviolet; 
+        color: gold; 
+        font-size: 17px; 
     }
 
-    .channel-card {
+    /* ==========================================
+       3. ФОРМА ОБРАТНОЙ СВЯЗИ
+       ========================================== */
+    .contact-section {
+        max-width: 500px;
+        margin: 50px auto;
+    }
+    .contact-form {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        max-width: 650px;
-        margin: 30px auto;
-        background-color: rgba(0, 0, 0, 0.2);
-        padding: 20px;
-        border-radius: 16px;
+        flex-direction: column;
+        gap: 15px; /* Отступы между полями ввода */
     }
-
-    .channel-info {
-        margin-left: 30px;
-        text-align: left;
+    .contact-form input, 
+    .contact-form textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border-radius: 8px;
+        border: 2px solid transparent;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        font-size: 16px;
+        box-sizing: border-box;
+        transition: 0.3s;
+    }
+    /* Эффект фокуса, когда нажимаешь на поле ввода */
+    .contact-form input:focus, 
+    .contact-form textarea:focus {
+        outline: none;
+        border-color: gold;
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+        color: rgba(255, 255, 255, 0.6);
     }
     
-    .channel-info h2 {
-        color: gold;
-        margin: 0 0 5px 0;
-        font-size: 22px;
-    }
-
-    .channel-desc {
-        color: #ffffff;
-        text-align: left;
+    .submit-btn {
+        background-color: gold;
+        color: blueviolet;
+        border: none;
+        padding: 15px;
         font-size: 16px;
-        margin: 0;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        transition: 0.3s;
+    }
+    .submit-btn:hover {
+        background-color: blueviolet;
+        color: gold;
+        transform: translateY(-2px);
     }
 
-    /* Адаптив под мобильные экраны */
+    /* ==========================================
+       СТИЛИ ТЕМ ДЛЯ МЕНЮ И ФОРМЫ
+       ========================================== */
+    /* Светлая тема */
+    body.light-theme { background-color: #f4f4f4; color: #333333; }
+    body.light-theme .navbar { background-color: rgba(255, 255, 255, 0.95); }
+    body.light-theme .nav-links a { color: #333333; }
+    body.light-theme .nav-links a:hover { color: darkred; }
+    body.light-theme .logo, body.light-theme h1, body.light-theme h2 { color: darkred; }
+    body.light-theme .channel-card { background-color: rgba(0, 0, 0, 0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    body.light-theme .channel-card:hover { box-shadow: 0 10px 25px rgba(139, 0, 0, 0.2); background-color: rgba(0, 0, 0, 0.08); }
+    body.light-theme .channel-desc { color: #444444; }
+    body.light-theme .contact-form input, body.light-theme .contact-form textarea { background-color: rgba(0, 0, 0, 0.05); color: #333333 !important; }
+    body.light-theme .contact-form input::placeholder, body.light-theme .contact-form textarea::placeholder { color: #777777; }
+    body.light-theme .contact-form input:focus, body.light-theme .contact-form textarea:focus { border-color: darkred; }
+    body.light-theme .submit-btn { background-color: darkred; color: white; }
+
+    /* Темная тема */
+    body.dark-theme { background-color: #121212; color: #e0e0e0; }
+    body.dark-theme .navbar { background-color: rgba(30, 30, 30, 0.95); }
+    body.dark-theme .channel-card { background-color: #1e1e1e; box-shadow: 0 4px 20px rgba(0,0,0,0.5); border: 1px solid #333333; }
+    body.dark-theme .channel-card:hover { box-shadow: 0 10px 25px rgba(255, 215, 0, 0.15); }
+    body.dark-theme .channel-desc { color: #b0b0b0; }
+    body.dark-theme .contact-form input, body.dark-theme .contact-form textarea { background-color: #1e1e1e; border: 1px solid #333333; color: #ffffff !important; }
+
+    /* ==========================================
+       АДАПТИВ (Мобилки)
+       ========================================== */
     @media (max-width: 600px) {
-        .channel-card {
-            flex-direction: column;
-            text-align: center;
-            margin: 20px 15px;
-            padding: 15px;
-        }
-        .channel-info {
-            margin-left: 0;
-            margin-top: 20px;
-            text-align: center;
-        }
-        .channel-desc {
-            text-align: center;
-        }
-        img {
-            width: 130px;
-        }
-        .my-button {
-            width: 100%;
-            max-width: 200px;
-            margin: 15px auto 0 auto;
-        }
+        .navbar { padding: 10px 15px; }
+        .logo { font-size: 18px; }
+        .nav-links a { margin-left: 10px; font-size: 14px; }
+        .channel-card { flex-direction: column; text-align: center; padding: 15px; margin: 15px; }
+        .channel-info { margin-left: 0; margin-top: 15px; text-align: center; }
+        .channel-info h2 { text-align: center; }
+        .my-button { width: 100%; max-width: 200px; }
     }
-</style>  
+
+    /* Анимация появления */
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .channel-card:nth-of-type(2) { animation-delay: 0.2s; }
+    .channel-card:nth-of-type(3) { animation-delay: 0.4s; }
+</style>
 </head>
 <body>
-  <h1>Добро пожаловать!</h1>
-  <p>Мои телеграм каналы:</p>
 
-  <div class="channel-card">
-      <img src="https://cdn4.telesco.pe/file/msipfavXA8w5pP6_lA63W8TSRODqqgsLqzlFLZ50InyHUeylgebqBo9u0_W4EksbZrgdek8AKxxFzy7oKTNUhwrrlHECZSd939_3jpnWr31bsx-upq0-yQoKTjormcvaJaABem4CbQVk3Heu9zIXazU0XWpOqDcdIOr615lYf4v-HOX4U9I0KjNWI2CCZydjy86TEdbGxZIn5Gfs9i9r7SGzcVD8tph5IDWr1e9GpzF19ik_xmAyASDO4hCM4dzAY3BW-u9taSWvYjlb__g5wY1zTYhHMzdskBTR2pZ8AnAyfOHiyyYztfZjv49Rzxd-RLEY1yDWivsTKkHqnTn5BA.jpg" alt="картина не загрузилась">
-      
-      <div class="channel-info">
-          <h2>MyTunes</h2>
-          <p class="channel-desc">Здесь вы найдете отличную музыку, топовые треки и ежедневные подборки для вашего настроения.</p>
-          <a href="https://t.me/playlistbyleo" target="_blank" class="my-button">Перейти в тг канал</a>
-      </div>
+  <header class="navbar">
+      <div class="logo">MyPortfolio</div>
+      <nav class="nav-links">
+          <a href="#welcome">Главная</a>
+          <a href="#channels">Мои каналы</a>
+          <a href="#contact">Контакты</a>
+      </nav>
+      <button id="theme-toggle" class="theme-btn-nav">🍷</button>
+  </header>
+
+  <div class="container">
+
+     <section id="channels" class="channels-section">
+          <h2>Мои Telegram каналы</h2>
+
+          <div class="channel-card">
+              <img src="https://cdn4.telesco.pe/file/msipfavXA8w5pP6_lA63W8TSRODqqgsLqzlFLZ50InyHUeylgebqBo9u0_W4EksbZrgdek8AKxxFzy7oKTNUhwrrlHECZSd939_3jpnWr31bsx-upq0-yQoKTjormcvaJaABem4CbQVk3Heu9zIXazU0XWpOqDcdIOr615lYf4v-HOX4U9I0KjNWI2CCZydjy86TEdbGxZIn5Gfs9i9r7SGzcVD8tph5IDWr1e9GpzF19ik_xmAyASDO4hCM4dzAY3BW-u9taSWvYjlb__g5wY1zTYhHMzdskBTR2pZ8AnAyfOHiyyYztfZjv49Rzxd-RLEY1yDWivsTKkHqnTn5BA.jpg" alt="картина не загрузилась">
+              <div class="channel-info">
+                  <h2>MyTunes</h2>
+                  <p class="channel-desc">Здесь вы найдете отличную музыку, топовые треки и ежедневные подборки для вашего настроения.</p>
+                  <a href="https://t.me/playlistbyleo" target="_blank" class="my-button">Перейти в тг канал</a>
+              </div> 
+          </div>
+
+          <div class="channel-card">
+              <img src="https://cdn4.telesco.pe/file/S9o4_TWZ9mMeAi28lkqoXdfhdBQqd5zMdNlX7XnZ3IwcrpDCuC2UhkZStAgeBGX5jSM4K89hrlLXLysz8VosSxIyVaVxerufypOp6QE5oiek9iHVdJi_ij35Dha3diB_1eQoGvr67GoA9cyHwVO61BryBs9jsv2V1hSAE_8izddVP-fGBZqrklewUPk8bxQkDp-IDfDami51i2EK-jrNxGM80hL9-L8vUIW7kFC7Zin71FaD_2gB9sqpPvbwPTl4shU2fM-TLppfGRWH-SMrNo5dZwEAuft38nVzPp0-JtIseMAikiiooMcbsBPXLHF3_oesUT-34izi1mJxQasqmQ.jpg" alt="картина не загрузилась">
+              <div class="channel-info">
+                  <h2>Jah Khalib</h2>
+                  <p class="channel-desc">Всё о творчестве Jah Khalib, новые релизы и душевные треки.</p>
+                  <a href="https://t.me/JahKhalib_Baha" target="_blank" class="my-button">Перейти в тг канал</a>
+              </div> 
+          </div>
+
+          <div class="channel-card">
+              <img src="https://cdn4.telesco.pe/file/tlQ2ZigQ5euS_Uz9hAZ-JldcshTNY6T4KZ3G7Nrlsb-s4yT7PpGriJDvwi7cRNWvgYcfN6l6TXXvvcHQwDliPt3rfVGovwRgVIG6-3_UWd3uLHgrew7uJWjvSBoFczc0FudXimazoH68Xk74-E9MplTQFE2VgEtodEeb2NZ5_0wq3IzQ8D_5nA4Tq3Tvf3BrTRsQbbr49GQOB5fHaPI_WxJ34w9WN_klVeVtCN6ouSh-SSYxDNniqXIjED7CBflJnLgAp5pIfGnZ0IltvZv1S_lw1JzRYf9B50AD2htBI1c5gBA81zXM7NefJ_D2KGllZUWR8SFuIxXyCeZ9TVg0KQ.jpg" alt="картина не загрузилась">
+              <div class="channel-info">
+                  <h2>Баста</h2>
+                  <p class="channel-desc">Главный канал ценителей Басты, Ноггано и Nintendo. Все культовые проекты в одном месте.</p>
+                  <a href="https://t.me/bastanagganoN1NT3ND0" target="_blank" class="my-button">Перейти в тг канал</a>
+              </div> 
+          </div>
+      </section>
+
+      <section id="contact" class="contact-section">
+          <h2>Написать мне</h2>
+          <form class="contact-form" onsubmit="event.preventDefault(); alert('Сообщение отправлено! (Это демо-версия формы)');">
+              <input type="text" placeholder="Ваше имя" required>
+              <input type="email" placeholder="Ваш Email" required>
+              <textarea placeholder="Ваше сообщение..." rows="5" required></textarea>
+              <button type="submit" class="submit-btn">Отправить</button>
+          </form>
+      </section>
+
   </div>
 
-  <div class="channel-card">
-      <img src="https://cdn4.telesco.pe/file/S9o4_TWZ9mMeAi28lkqoXdfhdBQqd5zMdNlX7XnZ3IwcrpDCuC2UhkZStAgeBGX5jSM4K89hrlLXLysz8VosSxIyVaVxerufypOp6QE5oiek9iHVdJi_ij35Dha3diB_1eQoGvr67GoA9cyHwVO61BryBs9jsv2V1hSAE_8izddVP-fGBZqrklewUPk8bxQkDp-IDfDami51i2EK-jrNxGM80hL9-L8vUIW7kFC7Zin71FaD_2gB9sqpPvbwPTl4shU2fM-TLppfGRWH-SMrNo5dZwEAuft38nVzPp0-JtIseMAikiiooMcbsBPXLHF3_oesUT-34izi1mJxQasqmQ.jpg" alt="картина не загрузилась">
-      
-      <div class="channel-info">
-          <h2>Jah Khalib</h2>
-          <p class="channel-desc">Всё о творчестве Jah Khalib, новые релизы и душевные треки.</p>
-          <a href="https://t.me/JahKhalib_Baha" target="_blank" class="my-button blue-btn">Перейти в тг канал</a>
-      </div>
-  </div>
+  <script>
+      const themeBtn = document.getElementById('theme-toggle');
+      const themes = ['default', 'light', 'dark'];
+      let currentThemeIndex = 0;
 
-  <div class="channel-card">
-      <img src="https://cdn4.telesco.pe/file/tlQ2ZigQ5euS_Uz9hAZ-JldcshTNY6T4KZ3G7Nrlsb-s4yT7PpGriJDvwi7cRNWvgYcfN6l6TXXvvcHQwDliPt3rfVGovwRgVIG6-3_UWd3uLHgrew7uJWjvSBoFczc0FudXimazoH68Xk74-E9MplTQFE2VgEtodEeb2NZ5_0wq3IzQ8D_5nA4Tq3Tvf3BrTRsQbbr49GQOB5fHaPI_WxJ34w9WN_klVeVtCN6ouSh-SSYxDNniqXIjED7CBflJnLgAp5pIfGnZ0IltvZv1S_lw1JzRYf9B50AD2htBI1c5gBA81zXM7NefJ_D2KGllZUWR8SFuIxXyCeZ9TVg0KQ.jpg" alt="картина не загрузилась">
-      
-      <div class="channel-info">
-          <h2>Баста</h2>
-          <p class="channel-desc">Главный канал ценителей Басты, Ноггано и Nintendo. Все культовые проекты в одном месте.</p>
-          <a href="https://t.me/bastanagganoN1NT3ND0" target="_blank" class="my-button green-btn">Перейти в тг канал</a>
-      </div>
-  </div>
+      themeBtn.addEventListener('click', () => {
+          currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+          const currentTheme = themes[currentThemeIndex];
 
+          document.body.classList.remove('light-theme', 'dark-theme');
+
+          if (currentTheme === 'default') {
+              themeBtn.textContent = '🍷';
+          } 
+          else if (currentTheme === 'light') {
+              document.body.classList.add('light-theme');
+              themeBtn.textContent = '☀️';
+          } 
+          else if (currentTheme === 'dark') {
+              document.body.classList.add('dark-theme');
+              themeBtn.textContent = '🌙';
+          }
+      });
+  </script>
 </body>
 </html>
