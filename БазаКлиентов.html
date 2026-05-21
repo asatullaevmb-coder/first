@@ -5,19 +5,33 @@
     <title>Система</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --bg-color: #f3f4f6;
-            --card-bg: #ffffff;
-            --text-color: #1f2937;
-        }
-        .dark {
-            --bg-color: #111827;
-            --card-bg: #1f2937;
-            --text-color: #ffffff;
-        }
-        body { background-color: var(--bg-color); color: var(--text-color); }
-        .theme-card { background-color: var(--card-bg); }
-    </style>
+    /* ПРИНУДИТЕЛЬНЫЕ ЦВЕТА */
+    :root {
+        --bg-body: #f3f4f6; /* Светлый фон страницы */
+        --bg-card: #ffffff; /* Белая карточка */
+        --bg-input: #374151; /* Темный фон инпутов, как на фото */
+        
+        --text-card: #1f2937; /* Темный текст входа/выхода */
+        --text-input: #ffffff; /* Белый текст внутри инпутов */
+    }
+
+    /* Стиль для ТЕМНОЙ ТЕМЫ */
+    .dark {
+        --bg-body: #111827; /* Темный фон страницы */
+        --bg-card: #1f2937; /* Темная карточка */
+        
+        --text-card: #ffffff; /* Белый текст */
+    }
+
+    /* ПРИМЕНЕНИЕ ПЕРЕМЕННЫХ */
+    body { background-color: var(--bg-body); transition: background-color 0.3s; }
+    .theme-card { background-color: var(--bg-card); transition: background-color 0.3s; color: var(--text-card); }
+    
+    /* Инпуты ВСЕГДА темные */
+    input { background-color: var(--bg-input) !important; color: var(--text-input) !important; border: 1px solid #4b5563 !important; }
+    input::placeholder { color: #9ca3af !important; } /* Четкий плейсхолдер */
+    p { color: var(--text-card); opacity: 0.8; }
+</style>
 </head>
 <body class="transition-colors duration-300 min-h-screen flex items-center justify-center p-4">
 
@@ -46,16 +60,18 @@
 
     <script>
         const users = { "3397": "Асадбек", "1999": "Фарангиз", "2209": "Севинч", "6611": "Саидали" };
+// НАДЕЖНОЕ ПЕРЕКЛЮЧЕНИЕ ТЕМЫ
+    function toggleTheme() {
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
 
-        function toggleTheme() {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        }
-
-        // Загрузка темы
-        if (localStorage.getItem('theme') === 'dark') {
-            document.documentElement.classList.add('dark');
-        }
+    // При загрузке страницы принудительно устанавливаем тему
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
 
         function login() {
             const code = document.getElementById('passCode').value;
