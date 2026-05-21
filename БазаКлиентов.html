@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Система</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+        }
+        .dark {
+            --bg-color: #111827;
+            --card-bg: #1f2937;
+            --text-color: #ffffff;
+        }
+        body { background-color: var(--bg-color); color: var(--text-color); }
+        .theme-card { background-color: var(--card-bg); }
+    </style>
+</head>
+<body class="transition-colors duration-300 min-h-screen flex items-center justify-center p-4">
+
+    <div id="card" class="theme-card p-8 rounded-2xl shadow-xl w-full max-w-md transition-colors duration-300">
+        <div class="flex justify-between items-center mb-6">
+            <h2 id="title" class="text-2xl font-bold">Вход</h2>
+            <button onclick="toggleTheme()" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700">🌙/☀️</button>
+        </div>
+
+        <div id="loginScreen">
+            <input type="password" id="passCode" placeholder="Ваш код" class="w-full p-3 mb-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 outline-none">
+            <button onclick="login()" class="w-full py-3 bg-blue-600 text-white font-bold rounded-lg">Войти</button>
+        </div>
+
+        <form id="dataForm" class="hidden space-y-4">
+            <p id="userDisplay" class="text-sm opacity-70"></p>
+            <input type="text" name="client" placeholder="Клиент" required class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+            <input type="text" name="phone" placeholder="Номер" required class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+            <input type="text" name="altPhone" placeholder="Доп. номер" class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+            <input type="text" name="reason" placeholder="Причина" class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+            <input type="hidden" id="userName" name="user">
+            <button type="submit" class="w-full py-3 bg-green-600 text-white font-bold rounded-lg">Отправить</button>
+            <button type="button" onclick="logout()" class="w-full py-2 text-sm opacity-50 hover:underline">Выйти</button>
+        </form>
+    </div>
+
+    <script>
+        const users = { "3397": "Асадбек", "1999": "Фарангиз", "2209": "Севинч", "6611": "Саидали" };
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        // Загрузка темы
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        }
+
+        function login() {
+            const code = document.getElementById('passCode').value;
+            if (users[code]) {
+                localStorage.setItem('userCode', code);
+                showForm(users[code]);
+            } else { alert("Неверный код!"); }
+        }
+
+        function showForm(name) {
+            document.getElementById('userName').value = name;
+            document.getElementById('userDisplay').innerText = "Вы: " + name;
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dataForm').classList.remove('hidden');
+            document.getElementById('title').innerText = "Регистрация";
+        }
+
+        function logout() {
+            localStorage.removeItem('userCode');
+            location.reload();
+        }
+
+        window.onload = () => {
+            const saved = localStorage.getItem('userCode');
+            if (saved && users[saved]) showForm(users[saved]);
+        };
+
+        document.getElementById('dataForm').onsubmit = (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    
+    // Блокируем кнопку на время отправки
+    btn.disabled = true;
+    btn.innerText = "Отправка...";
+    
+    const url = "https://script.google.com/macros/s/AKfycbwmsvcXigSlfpQ6PzhXmfaSkEfdeg3fzT4AKeuWs--EP6reyJfz8hK1avegg7oCXQ7E/exec";
+    
+    fetch(url, { method: 'POST', body: new FormData(e.target) })
+    .then(() => {
+        alert("Данные успешно отправлены!");
+        e.target.reset();
+    })
+    .catch(err => alert("Ошибка!"))
+    .finally(() => {
+        // Разблокируем кнопку обратно
+        btn.disabled = false;
+        btn.innerText = "Отправить";
+    });
+};
+    </script>
+</body>
+</html>
