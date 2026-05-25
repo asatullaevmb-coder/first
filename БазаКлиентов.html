@@ -7,29 +7,24 @@
     <style>
     /* ПРИНУДИТЕЛЬНЫЕ ЦВЕТА */
     :root {
-        --bg-body: #f3f4f6; /* Светлый фон страницы */
-        --bg-card: #ffffff; /* Белая карточка */
-        --bg-input: #374151; /* Темный фон инпутов, как на фото */
-        
-        --text-card: #1f2937; /* Темный текст входа/выхода */
-        --text-input: #ffffff; /* Белый текст внутри инпутов */
+        --bg-body: #f3f4f6;
+        --bg-card: #ffffff;
+        --bg-input: #374151;
+        --text-card: #1f2937;
+        --text-input: #ffffff;
     }
 
-    /* Стиль для ТЕМНОЙ ТЕМЫ */
     .dark {
-        --bg-body: #111827; /* Темный фон страницы */
-        --bg-card: #1f2937; /* Темная карточка */
-        
-        --text-card: #ffffff; /* Белый текст */
+        --bg-body: #111827;
+        --bg-card: #1f2937;
+        --text-card: #ffffff;
     }
 
-    /* ПРИМЕНЕНИЕ ПЕРЕМЕННЫХ */
     body { background-color: var(--bg-body); transition: background-color 0.3s; }
     .theme-card { background-color: var(--bg-card); transition: background-color 0.3s; color: var(--text-card); }
     
-    /* Инпуты ВСЕГДА темные */
     input { background-color: var(--bg-input) !important; color: var(--text-input) !important; border: 1px solid #4b5563 !important; }
-    input::placeholder { color: #9ca3af !important; } /* Четкий плейсхолдер */
+    input::placeholder { color: #9ca3af !important; }
     p { color: var(--text-card); opacity: 0.8; }
 </style>
 </head>
@@ -42,16 +37,16 @@
         </div>
 
         <div id="loginScreen">
-            <input type="password" id="passCode" placeholder="Ваш код" class="w-full p-3 mb-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 outline-none">
+            <input type="text" id="passCode" placeholder="Ваш код" autocomplete="off" inputmode="numeric" style="-webkit-text-security: disc;" class="w-full p-3 mb-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 outline-none">
             <button onclick="login()" class="w-full py-3 bg-blue-600 text-white font-bold rounded-lg">Войти</button>
         </div>
 
-        <form id="dataForm" class="hidden space-y-4">
+        <form id="dataForm" class="hidden space-y-4" autocomplete="off">
             <p id="userDisplay" class="text-sm opacity-70"></p>
-            <input type="text" name="client" placeholder="Клиент" required class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
-            <input type="text" name="phone" placeholder="Номер" required class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
-            <input type="text" name="altPhone" placeholder="Доп. номер" class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
-            <input type="text" name="reason" placeholder="Причина" class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+            <input type="text" name="client" placeholder="Клиент" required autocomplete="off" class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+            <input type="text" name="phone" placeholder="Номер" required autocomplete="off" class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+            <input type="text" name="altPhone" placeholder="Доп. номер" autocomplete="off" class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+            <input type="text" name="reason" placeholder="Причина" autocomplete="off" class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
             <input type="hidden" id="userName" name="user">
             <button type="submit" class="w-full py-3 bg-green-600 text-white font-bold rounded-lg">Отправить</button>
             <button type="button" onclick="logout()" class="w-full py-2 text-sm opacity-50 hover:underline">Выйти</button>
@@ -59,19 +54,18 @@
     </div>
 
     <script>
-        const users = { "3397": "Асадбек", "1999": "Фарангиз", "2209": "Севинч", "6611": "Саидали" };
-// НАДЕЖНОЕ ПЕРЕКЛЮЧЕНИЕ ТЕМЫ
-    function toggleTheme() {
-        const isDark = document.documentElement.classList.toggle('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    }
+        const users = { "3397": "Асадбек", "1999": "Фарангиз", "2209": "Севинч", "6611": "Саидали", "1108": "Сахиёр"};
 
-    // При загрузке страницы принудительно устанавливаем тему
-    if (localStorage.getItem('theme') === 'dark') {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
 
         function login() {
             const code = document.getElementById('passCode').value;
@@ -100,27 +94,25 @@
         };
 
         document.getElementById('dataForm').onsubmit = (e) => {
-    e.preventDefault();
-    const btn = e.target.querySelector('button[type="submit"]');
-    
-    // Блокируем кнопку на время отправки
-    btn.disabled = true;
-    btn.innerText = "Отправка...";
-    
-    const url = "https://script.google.com/macros/s/AKfycbwmsvcXigSlfpQ6PzhXmfaSkEfdeg3fzT4AKeuWs--EP6reyJfz8hK1avegg7oCXQ7E/exec";
-    
-    fetch(url, { method: 'POST', body: new FormData(e.target) })
-    .then(() => {
-        alert("Данные успешно отправлены!");
-        e.target.reset();
-    })
-    .catch(err => alert("Ошибка!"))
-    .finally(() => {
-        // Разблокируем кнопку обратно
-        btn.disabled = false;
-        btn.innerText = "Отправить";
-    });
-};
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            
+            btn.disabled = true;
+            btn.innerText = "Отправка...";
+            
+            const url = "https://script.google.com/macros/s/AKfycbwmsvcXigSlfpQ6PzhXmfaSkEfdeg3fzT4AKeuWs--EP6reyJfz8hK1avegg7oCXQ7E/exec";
+            
+            fetch(url, { method: 'POST', body: new FormData(e.target) })
+            .then(() => {
+                alert("Данные успешно отправлены!");
+                e.target.reset();
+            })
+            .catch(err => alert("Ошибка!"))
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerText = "Отправить";
+            });
+        };
     </script>
 </body>
 </html>
