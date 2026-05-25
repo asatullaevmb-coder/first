@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>ABM_Call-Markaz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+    /* ПРИНУДИТЕЛЬНЫЕ ЦВЕТА */
+    :root {
+        --bg-body: #f3f4f6;
+        --bg-card: #ffffff;
+        --bg-input: #374151;
+        --text-card: #1f2937;
+        --text-input: #ffffff;
+    }
+
+    .dark {
+        --bg-body: #111827;
+        --bg-card: #1f2937;
+        --text-card: #ffffff;
+    }
+
+    body { background-color: var(--bg-body); transition: background-color 0.3s; }
+    .theme-card { background-color: var(--bg-card); transition: background-color 0.3s; color: var(--text-card); }
+    
+    input { background-color: var(--bg-input) !important; color: var(--text-input) !important; border: 1px solid #4b5563 !important; }
+    input::placeholder { color: #9ca3af !important; }
+    p { color: var(--text-card); opacity: 0.8; }
+</style>
+</head>
+<body class="transition-colors duration-300 min-h-screen flex items-center justify-center p-4">
+
+    <div id="card" class="theme-card p-8 rounded-2xl shadow-xl w-full max-w-md transition-colors duration-300">
+        <div class="flex justify-between items-center mb-6">
+            <h2 id="title" class="text-2xl font-bold">Вход</h2>
+            <button onclick="toggleTheme()" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700">🌙/☀️</button>
+        </div>
+
+        <div id="loginScreen">
+            <input type="text" id="passCode" placeholder="Ваш код" autocomplete="off" inputmode="numeric" style="-webkit-text-security: disc;" class="w-full p-3 mb-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 outline-none">
+            <button onclick="login()" class="w-full py-3 bg-blue-600 text-white font-bold rounded-lg">Войти</button>
+        </div>
+
+        <form id="dataForm" class="hidden space-y-4" autocomplete="off">
+            <p id="userDisplay" class="text-sm opacity-70"></p>
+            <input type="text" name="client" placeholder="Клиент" required autocomplete="off" class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+            <input type="text" name="phone" placeholder="Номер" required autocomplete="off" class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+            <input type="text" name="altPhone" placeholder="Доп. номер" autocomplete="off" class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+            <input type="text" name="reason" placeholder="Причина" autocomplete="off" class="w-full p-3 rounded-lg border dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+            <input type="hidden" id="userName" name="user">
+            <button type="submit" class="w-full py-3 bg-green-600 text-white font-bold rounded-lg">Отправить</button>
+            <button type="button" onclick="logout()" class="w-full py-2 text-sm opacity-50 hover:underline">Выйти</button>
+        </form>
+    </div>
+
+    <script>
+        const users = { "3397": "Асадбек", "1999": "Фарангиз", "2209": "Севинч", "6611": "Саидали", "1108": "Сахиёр"};
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        function login() {
+            const code = document.getElementById('passCode').value;
+            if (users[code]) {
+                localStorage.setItem('userCode', code);
+                showForm(users[code]);
+            } else { alert("Неверный код!"); }
+        }
+
+        function showForm(name) {
+            document.getElementById('userName').value = name;
+            document.getElementById('userDisplay').innerText = "Вы: " + name;
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dataForm').classList.remove('hidden');
+            document.getElementById('title').innerText = "Регистрация";
+        }
+
+        function logout() {
+            localStorage.removeItem('userCode');
+            location.reload();
+        }
+
+        window.onload = () => {
+            const saved = localStorage.getItem('userCode');
+            if (saved && users[saved]) showForm(users[saved]);
+        };
+
+        document.getElementById('dataForm').onsubmit = (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            
+            btn.disabled = true;
+            btn.innerText = "Отправка...";
+            
+            const url = "https://script.google.com/macros/s/AKfycbwmsvcXigSlfpQ6PzhXmfaSkEfdeg3fzT4AKeuWs--EP6reyJfz8hK1avegg7oCXQ7E/exec";
+            
+            fetch(url, { method: 'POST', body: new FormData(e.target) })
+            .then(() => {
+                alert("Данные успешно отправлены!");
+                e.target.reset();
+            })
+            .catch(err => alert("Ошибка!"))
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerText = "Отправить";
+            });
+        };
+    </script>
+</body>
+</html>
