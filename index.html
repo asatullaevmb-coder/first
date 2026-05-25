@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>My Portfolio</title>
 <style>
     /* ==========================================
-       БАЗОВЫЕ НАСТРОЙКИ СТРАНИЦЫ
+       БАЗОВЫЕ НАСТРОЙКИ СТРАНИЦЫ И АНИМАЦИЯ
        ========================================== */
     html {
-        scroll-behavior: smooth; /* Плавная прокрутка при клике на меню */
+        scroll-behavior: smooth; 
     }
     body {
         background-color: darkred;
@@ -20,7 +20,6 @@
         transition: background-color 0.4s, color 0.4s;
     }
     
-    /* Контейнер ограничивает контент по ширине и центрирует его */
     .container {
         max-width: 800px;
         margin: 0 auto;
@@ -44,11 +43,11 @@
        1. ПРИЛИПАЮЩЕЕ НАВИГАЦИОННОЕ МЕНЮ
        ========================================== */
     .navbar {
-        position: -webkit-sticky; /* Поддержка Safari */
+        position: -webkit-sticky; 
         position: sticky;
         top: 0;
-        background-color: rgba(139, 0, 0, 0.95); /* Полупрозрачный бордовый фон */
-        backdrop-filter: blur(5px); /* Легкое размытие заднего плана */
+        background-color: rgba(139, 0, 0, 0.95); 
+        backdrop-filter: blur(5px); 
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -72,70 +71,136 @@
     .nav-links a:hover {
         color: gold;
     }
-    /* Кнопка смены тем внутри меню */
-    .theme-btn-nav {
+    
+    /* Блок с кнопками управления в меню */
+    .nav-controls {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    /* Стили для подписи темы */
+    .theme-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-weight: bold;
+        font-size: 14px;
+        color: white;
+        transition: color 0.4s;
+    }
+
+    .theme-btn-nav, .lang-btn-nav {
         background: transparent;
         border: 1px solid gold;
-        font-size: 20px;
+        color: gold;
+        font-weight: bold;
         cursor: pointer;
         padding: 5px;
-        border-radius: 50%;
-        width: 40px;
+        border-radius: 8px;
         height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: 0.3s;
+        box-sizing: border-box;
     }
-    .theme-btn-nav:hover {
+    .theme-btn-nav {
+        width: 40px;
+        border-radius: 50%;
+        font-size: 20px;
+    }
+    .lang-btn-nav {
+        padding: 0 8px;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .theme-btn-nav:hover, .lang-btn-nav:hover {
         transform: scale(1.1);
+        background-color: rgba(255, 215, 0, 0.1);
+    }
+
+    /* Анимация вращения флага при смене языка */
+    .rotate-lang {
+        animation: rotateCanvas 0.4s ease-out;
+    }
+
+    @keyframes rotateCanvas {
+        from { transform: rotate(0deg) scale(1); }
+        50% { transform: rotate(180deg) scale(0.8); }
+        to { transform: rotate(360deg) scale(1); }
     }
 
     /* ==========================================
-       2. КАРТОЧКИ И ЭФФЕКТЫ ПРИ НАВЕДЕНИИ
+       2. КАРТОЧКИ С КРАСИВЫМ ВЫЛЕТОМ
        ========================================== */
-    img {
+    .channel-avatar {
         display: block;
         width: 120px;
+        height: 120px;
+        max-width: 120px;
         aspect-ratio: 1 / 1;
         object-fit: cover;
         border-radius: 50%;
         box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        flex-shrink: 0; 
     }
     .channel-card {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start; 
         background-color: rgba(0, 0, 0, 0.2);
         padding: 20px;
         border-radius: 16px;
         margin: 25px auto;
         max-width: 650px;
-        
-        /* Важно для плавного эффекта парения */
+        gap: 25px; 
         transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.4s;
         
-        /* Анимация появления при загрузке */
         opacity: 0;
-        animation: slideUp 0.8s ease-out forwards;
+        transform: translateY(40px);
+        animation: slideUpFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     }
 
-    /* СВЕЧЕНИЕ И ПРИПОДЫМАНИЕ КАРТОЧКИ ПРИ НАВЕДЕНИИ 🌟 */
     .channel-card:hover {
-        transform: translateY(-8px); /* Карточка приподнимается вверх на 8 пикселей */
-        box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3); /* Золотистое свечение */
+        transform: translateY(-8px); 
+        box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3); 
         background-color: rgba(0, 0, 0, 0.3);
     }
 
-    .channel-info { margin-left: 25px; text-align: left; }
-    .channel-info h2 { color: gold; margin: 0 0 5px 0; text-align: left; font-size: 22px; }
-    .channel-desc { color: #ffffff; font-size: 15px; margin: 0; text-align: left; }
+    .channel-info { 
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; 
+        text-align: left; 
+        flex-grow: 1;
+    }
+    .channel-info h2 { 
+        color: gold; 
+        margin: 0 0 8px 0; 
+        text-align: left; 
+        font-size: 22px; 
+    }
+    .channel-info .channel-desc { 
+        color: #ffffff; 
+        font-size: 15px; 
+        margin: 0 0 15px 0; 
+        text-align: left; 
+        line-height: 1.4;
+        transition: color 0.4s;
+    }
 
+    /* Кнопка с иконкой Telegram */
     .my-button {
-        display: inline-block;
-        width: 180px;
-        margin-top: 15px;
-        padding: 12px 15px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px; 
+        width: auto;
+        white-space: nowrap;
+        padding: 12px 24px;      
         background-color: gold;
         color: blueviolet;
         text-align: center;
@@ -143,12 +208,20 @@
         font-weight: bold;
         border-radius: 8px;
         box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        transition: 0.3s;
+        transition: background-color 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s;
+        box-sizing: border-box;
     }
+
+    .my-button svg {
+        fill: currentColor; 
+        transition: fill 0.3s;
+    }
+
     .my-button:hover { 
         background-color: blueviolet; 
         color: gold; 
-        font-size: 17px; 
+        transform: scale(1.05); 
+        box-shadow: 0 6px 15px rgba(0,0,0,0.4);
     }
 
     /* ==========================================
@@ -161,7 +234,7 @@
     .contact-form {
         display: flex;
         flex-direction: column;
-        gap: 15px; /* Отступы между полями ввода */
+        gap: 15px; 
     }
     .contact-form input, 
     .contact-form textarea {
@@ -175,7 +248,6 @@
         box-sizing: border-box;
         transition: 0.3s;
     }
-    /* Эффект фокуса, когда нажимаешь на поле ввода */
     .contact-form input:focus, 
     .contact-form textarea:focus {
         outline: none;
@@ -205,51 +277,50 @@
         transform: translateY(-2px);
     }
 
-    /* ==========================================
-       СТИЛИ ТЕМ ДЛЯ МЕНЮ И ФОРМЫ
-       ========================================== */
-    /* Светлая тема */
+    /* СТИЛИ ТЕМ ДЛЯ МЕНЮ И ФОРМЫ */
     body.light-theme { background-color: #f4f4f4; color: #333333; }
     body.light-theme .navbar { background-color: rgba(255, 255, 255, 0.95); }
     body.light-theme .nav-links a { color: #333333; }
     body.light-theme .nav-links a:hover { color: darkred; }
+    body.light-theme .theme-wrapper { color: #333333; }
     body.light-theme .logo, body.light-theme h1, body.light-theme h2 { color: darkred; }
     body.light-theme .channel-card { background-color: rgba(0, 0, 0, 0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
     body.light-theme .channel-card:hover { box-shadow: 0 10px 25px rgba(139, 0, 0, 0.2); background-color: rgba(0, 0, 0, 0.08); }
     body.light-theme .channel-desc { color: #444444; }
-    body.light-theme .contact-form input, body.light-theme .contact-form textarea { background-color: rgba(0, 0, 0, 0.05); color: #333333 !important; }
+    body.light-theme .contact-form input, body.light-theme .contact-form textarea { background-color: rgba(0, 0, 0, 0.05); color: #333333; }
+    body.light-theme .contact-form input:focus, body.light-theme .contact-form textarea:focus { border-color: darkred; color: #333333; }
     body.light-theme .contact-form input::placeholder, body.light-theme .contact-form textarea::placeholder { color: #777777; }
-    body.light-theme .contact-form input:focus, body.light-theme .contact-form textarea:focus { border-color: darkred; }
     body.light-theme .submit-btn { background-color: darkred; color: white; }
 
-    /* Темная тема */
     body.dark-theme { background-color: #121212; color: #e0e0e0; }
     body.dark-theme .navbar { background-color: rgba(30, 30, 30, 0.95); }
+    body.dark-theme .theme-wrapper { color: #e0e0e0; }
     body.dark-theme .channel-card { background-color: #1e1e1e; box-shadow: 0 4px 20px rgba(0,0,0,0.5); border: 1px solid #333333; }
     body.dark-theme .channel-card:hover { box-shadow: 0 10px 25px rgba(255, 215, 0, 0.15); }
     body.dark-theme .channel-desc { color: #b0b0b0; }
     body.dark-theme .contact-form input, body.dark-theme .contact-form textarea { background-color: #1e1e1e; border: 1px solid #333333; color: #ffffff !important; }
 
-    /* ==========================================
-       АДАПТИВ (Мобилки)
-       ========================================== */
     @media (max-width: 600px) {
-        .navbar { padding: 10px 15px; }
+        .navbar { padding: 10px 15px; flex-direction: column; gap: 10px; }
         .logo { font-size: 18px; }
         .nav-links a { margin-left: 10px; font-size: 14px; }
-        .channel-card { flex-direction: column; text-align: center; padding: 15px; margin: 15px; }
-        .channel-info { margin-left: 0; margin-top: 15px; text-align: center; }
+        .channel-card { flex-direction: column; text-align: center; padding: 15px; margin: 15px; gap: 15px; }
+        .channel-info { margin-left: 0; align-items: center; text-align: center; }
         .channel-info h2 { text-align: center; }
+        .channel-info .channel-desc { text-align: center; }
         .my-button { width: 100%; max-width: 200px; }
     }
 
-    /* Анимация появления */
-    @keyframes slideUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
+    @keyframes slideUpFade {
+        from { 
+            opacity: 0; 
+            transform: translateY(40px); 
+        }
+        to { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
     }
-    .channel-card:nth-of-type(2) { animation-delay: 0.2s; }
-    .channel-card:nth-of-type(3) { animation-delay: 0.4s; }
 </style>
 </head>
 <body>
@@ -257,80 +328,329 @@
   <header class="navbar">
       <div class="logo">MyPortfolio</div>
       <nav class="nav-links">
-          <a href="#welcome">Главная</a>
-          <a href="#channels">Мои каналы</a>
-          <a href="#contact">Контакты</a>
+          <a href="#channels" id="nav-channels-link">Мои каналы</a>
+          <a href="#contact" id="nav-contact-link">Контакты</a>
       </nav>
-      <button id="theme-toggle" class="theme-btn-nav">🍷</button>
+      
+      <div class="nav-controls">
+          <div class="theme-wrapper">
+              <span id="theme-label">Тема:</span>
+              <button id="theme-toggle" class="theme-btn-nav">🍷</button>
+          </div>
+          <button id="lang-toggle" class="lang-btn-nav"></button>
+      </div>
   </header>
 
   <div class="container">
-
      <section id="channels" class="channels-section">
-          <h2>Мои Telegram каналы</h2>
-
-          <div class="channel-card">
-              <img src="https://cdn4.telesco.pe/file/msipfavXA8w5pP6_lA63W8TSRODqqgsLqzlFLZ50InyHUeylgebqBo9u0_W4EksbZrgdek8AKxxFzy7oKTNUhwrrlHECZSd939_3jpnWr31bsx-upq0-yQoKTjormcvaJaABem4CbQVk3Heu9zIXazU0XWpOqDcdIOr615lYf4v-HOX4U9I0KjNWI2CCZydjy86TEdbGxZIn5Gfs9i9r7SGzcVD8tph5IDWr1e9GpzF19ik_xmAyASDO4hCM4dzAY3BW-u9taSWvYjlb__g5wY1zTYhHMzdskBTR2pZ8AnAyfOHiyyYztfZjv49Rzxd-RLEY1yDWivsTKkHqnTn5BA.jpg" alt="картина не загрузилась">
-              <div class="channel-info">
-                  <h2>MyTunes</h2>
-                  <p class="channel-desc">Здесь вы найдете отличную музыку, топовые треки и ежедневные подборки для вашего настроения.</p>
-                  <a href="https://t.me/playlistbyleo" target="_blank" class="my-button">Перейти в тг канал</a>
-              </div> 
-          </div>
-
-          <div class="channel-card">
-              <img src="https://cdn4.telesco.pe/file/S9o4_TWZ9mMeAi28lkqoXdfhdBQqd5zMdNlX7XnZ3IwcrpDCuC2UhkZStAgeBGX5jSM4K89hrlLXLysz8VosSxIyVaVxerufypOp6QE5oiek9iHVdJi_ij35Dha3diB_1eQoGvr67GoA9cyHwVO61BryBs9jsv2V1hSAE_8izddVP-fGBZqrklewUPk8bxQkDp-IDfDami51i2EK-jrNxGM80hL9-L8vUIW7kFC7Zin71FaD_2gB9sqpPvbwPTl4shU2fM-TLppfGRWH-SMrNo5dZwEAuft38nVzPp0-JtIseMAikiiooMcbsBPXLHF3_oesUT-34izi1mJxQasqmQ.jpg" alt="картина не загрузилась">
-              <div class="channel-info">
-                  <h2>Jah Khalib</h2>
-                  <p class="channel-desc">Всё о творчестве Jah Khalib, новые релизы и душевные треки.</p>
-                  <a href="https://t.me/JahKhalib_Baha" target="_blank" class="my-button">Перейти в тг канал</a>
-              </div> 
-          </div>
-
-          <div class="channel-card">
-              <img src="https://cdn4.telesco.pe/file/tlQ2ZigQ5euS_Uz9hAZ-JldcshTNY6T4KZ3G7Nrlsb-s4yT7PpGriJDvwi7cRNWvgYcfN6l6TXXvvcHQwDliPt3rfVGovwRgVIG6-3_UWd3uLHgrew7uJWjvSBoFczc0FudXimazoH68Xk74-E9MplTQFE2VgEtodEeb2NZ5_0wq3IzQ8D_5nA4Tq3Tvf3BrTRsQbbr49GQOB5fHaPI_WxJ34w9WN_klVeVtCN6ouSh-SSYxDNniqXIjED7CBflJnLgAp5pIfGnZ0IltvZv1S_lw1JzRYf9B50AD2htBI1c5gBA81zXM7NefJ_D2KGllZUWR8SFuIxXyCeZ9TVg0KQ.jpg" alt="картина не загрузилась">
-              <div class="channel-info">
-                  <h2>Баста</h2>
-                  <p class="channel-desc">Главный канал ценителей Басты, Ноггано и Nintendo. Все культовые проекты в одном месте.</p>
-                  <a href="https://t.me/bastanagganoN1NT3ND0" target="_blank" class="my-button">Перейти в тг канал</a>
-              </div> 
-          </div>
-      </section>
+          <h2 id="section-title">Мои Telegram каналы</h2>
+          <div id="channels-container"></div>
+     </section>
 
       <section id="contact" class="contact-section">
-          <h2>Написать мне</h2>
-          <form class="contact-form" onsubmit="event.preventDefault(); alert('Сообщение отправлено! (Это демо-версия формы)');">
-              <input type="text" placeholder="Ваше имя" required>
-              <input type="email" placeholder="Ваш Email" required>
-              <textarea placeholder="Ваше сообщение..." rows="5" required></textarea>
-              <button type="submit" class="submit-btn">Отправить</button>
+          <h2 id="contact-title">Написать мне</h2>
+          <form class="contact-form" id="tg-form">
+              <input type="text" id="user-name" placeholder="Ваше имя" required>
+              <input type="text" id="user-telegram" placeholder="Ваш Telegram (например, @username)" required>
+              <textarea id="user-message" placeholder="Ваше сообщение..." rows="5" required></textarea>
+              <button type="submit" class="submit-btn" id="submit-btn">Отправить</button>
           </form>
       </section>
-
   </div>
 
   <script>
+      const TELEGRAM_TOKEN = '8668104516:AAHFr6mWoCBqEjPvXHxacd2UiWJCaa5uw3s'; 
+      const TELEGRAM_CHAT_ID = '33375161'; 
+
+      // Переменная текущего языка (по умолчанию 'ru')
+      let currentLang = localStorage.getItem('userLang') || 'ru';
+
+      // SVG иконки для флагов стран (RU, EN, UZ)
+      const langFlags = {
+          ru: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 6" width="28" height="18"><rect fill="#fff" width="9" height="6"/><rect fill="#0039a6" y="2" width="9" height="4"/><rect fill="#d52b1e" y="4" width="9" height="2"/></svg>`,
+          en: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 30" width="28" height="18"><clipPath id="a"><path d="M0 0v30h50V0z"/></clipPath><g clip-path="url(#a)"><path d="M0 0v30h50V0z" fill="#012169"/><path d="M0 0l50 30M50 0L0 30" stroke="#fff" stroke-width="6"/><path d="M0 0l50 30M50 0L0 30" stroke="#c8102e" stroke-width="4"/><path d="M25 0v30M0 15h50" stroke="#fff" stroke-width="10"/><path d="M25 0v30M0 15h50" stroke="#c8102e" stroke-width="6"/></g></svg>`,
+          uz: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 250" width="28" height="18"><rect width="500" height="250" fill="#fff"/><rect width="500" height="75" fill="#0096b4"/><rect y="175" width="500" height="75" fill="#1eb446"/><rect y="75" width="500" height="5" fill="#e11432"/><rect y="170" width="500" height="5" fill="#e11432"/><circle cx="56" cy="38" r="23" fill="#fff"/><circle cx="69" cy="38" r="23" fill="#0096b4"/><circle cx="113" cy="25" r="4" fill="#fff"/><circle cx="128" cy="25" r="4" fill="#fff"/><circle cx="143" cy="25" r="4" fill="#fff"/><circle cx="105" cy="38" r="4" fill="#fff"/><circle cx="120" cy="38" r="4" fill="#fff"/><circle cx="135" cy="38" r="4" fill="#fff"/><circle cx="98" cy="51" r="4" fill="#fff"/><circle cx="113" cy="51" r="4" fill="#fff"/><circle cx="128" cy="51" r="4" fill="#fff"/><circle cx="143" cy="51" r="4" fill="#fff"/><circle cx="120" cy="13" r="4" fill="#fff"/><circle cx="135" cy="13" r="4" fill="#fff"/></svg>`
+      };
+
+      // Словарь переводов для интерфейса (RU, EN, UZ)
+      const translations = {
+          ru: {
+              navChannels: "Мои каналы",
+              navContact: "Контакты",
+              themeLabel: "Тема:",
+              sectionTitle: "Мои Telegram каналы",
+              contactTitle: "Написать мне",
+              namePlaceholder: "Ваше имя",
+              tgPlaceholder: "Ваш Telegram (например, @username)",
+              msgPlaceholder: "Ваше сообщение...",
+              btnSend: "Отправить",
+              btnSending: "Отправка...",
+              btnGo: "Открыть", 
+              alertSuccess: "Ура! Сообщение успешно доставлено прямо в Telegram!",
+              alertError: "Упс! Произошла ошибка при отправке бота. Проверьте токен.",
+              alertNetwork: "Ошибка сети! Проверьте internet-соединение."
+          },
+          en: {
+              navChannels: "My Channels",
+              navContact: "Contact Me",
+              themeLabel: "Theme:",
+              sectionTitle: "My Telegram Channels",
+              contactTitle: "Contact Me",
+              namePlaceholder: "Your Name",
+              tgPlaceholder: "Your Telegram (e.g., @username)",
+              msgPlaceholder: "Your message...",
+              btnSend: "Send",
+              btnSending: "Sending...",
+              btnGo: "Open",
+              alertSuccess: "Success! The message was delivered straight to Telegram!",
+              alertError: "Oops! An error occurred. Check the bot token.",
+              alertNetwork: "Network error! Check your internet connection."
+          },
+          uz: {
+              navChannels: "Kanallarim",
+              navContact: "Aloqa",
+              themeLabel: "Mavzu:",
+              sectionTitle: "Mening Telegram kanallarim",
+              contactTitle: "Menga yozing",
+              namePlaceholder: "Ismingiz",
+              tgPlaceholder: "Telegramingiz (masalan, @username)",
+              msgPlaceholder: "Xabaringiz...",
+              btnSend: "Yuborish",
+              btnSending: "Yuborilmoqda...",
+              btnGo: "Ochish",
+              alertSuccess: "Urra! Xabar muvaffaqiyatli ravishda Telegramga yuborildi!",
+              alertError: "Xatolik yuz berdi. Bot tokenini tekshiring.",
+              alertNetwork: "Tarmoq xatosi! Internet aloqasini tekshiring."
+          }
+      };
+
+      // Обновленная база данных с твоими новыми прямыми ссылками
+      const myTelegramChannels = [
+          {
+              img: "https://cdn4.telesco.pe/file/oi2OdBU7GHkh2qF6ZGqYOvDLXFMUUJSb2RLRYWUrkK1MwVDX-82skJKmgFBy_aXWgx_DRlLyMJh5-s0hQmcAyFXZTSuqs1hwVTUEPsBBepXpGF9FVfSGjnOQsQbJVtYhQOT1ar8RiYvxt2CkbQ0vy8Kh0M08LIYjISqnlptcsUihuxV84OzR6nT86HexhxgSljjwbMfdC-RjPNhXaoZ2LpYq0AYj0cXFqkDOngwuju5YGAKTczynTXE-5YPYUKBFgbU_pgW73mEuYbAxz9MTvC9DFQ9rwWzm7wOptFQ9i-A69T9Qn38wOY4W4_bD4fWh5v2c1sjvb9VkkpGSA0UCOQ.jpg",
+              link: "https://t.me/playlistbyleo",
+              ru: {
+                  title: "MyTunes",
+                  desc: "Здесь вы найдете отличную музыку, топовые треки и ежедневные подборки для вашего настроения."
+              },
+              en: {
+                  title: "MyTunes",
+                  desc: "Here you will find great music, top tracks, and daily compilations matched for your mood."
+              },
+              uz: {
+                  title: "MyTunes",
+                  desc: "Bu yerda siz ajoyib musiqa, eng yaxshi treklar va kayfiyatingizga mos kundalik to'plamlarni topasiz."
+              }
+          },
+          {
+              img: "https://cdn4.telesco.pe/file/i6dAON1FAM8xD33TfjzGIIEziR4XANb5u4Ugf7TwwMWQDRU0D-9JGHtx_VpaiFVTWbb867nr84erS60ObkIH_qBIbR_-FruNvPMoJNATfj6zxfDePkLRvipNrBE3yOF9fNmtwnVbtA1EtEOgKQoeqOXaoAKUzQPhEFpiyWp9_2NrITN9ojZF2u46u4mRAUWZQ5B3yfoWIJz-Rkkz2LjqqmiIGKeCd74dzaqgeLeyiJ0Fp6X0krAGZXTsQbjqP-jYgiKcyB45HoaZBKj7P29-RBJt5chUTsspu1jiFuEnObwgg0Dd4kKiGj63A7G9eo9CkSgUQdzBpgaF6DCg9JFRfg.jpg",
+              link: "https://t.me/JahKhalib_Baha",
+              ru: {
+                  title: "Jah Khalib",
+                  desc: "Всё о творчестве Jah Khalib, новые релизы и душевные треки."
+              },
+              en: {
+                  title: "Jah Khalib",
+                  desc: "Everything about Jah Khalib's art, brand new releases, and deep, soulful tracks."
+              },
+              uz: {
+                  title: "Jah Khalib",
+                  desc: "Jah Khalib ijodi, yangi relizlar va samimiy taronalar haqida hamma narsa."
+              }
+          },
+          {
+              img: "https://cdn4.telesco.pe/file/q1l5R3jrpo1ZzLbGs6RSOVv50uHcaHKnIvvh5cdqXCWD1N8ys30yH_EDod__bmYQAZ_-HvukxCElhqzIgLFfOJjVvGB2DQZqdR4oUl_kMaOEqKOu_H44_iwy0WzrWNI1sIfxITJajtjQ3NhcG8CQgMzobdIAM0VM-BKg9ZfmNBeGcUZnBvDbxqocxBYaC7feLBXLwX5C4be44zai3Jg_IjHJ0Pyiok0qLR_4dOTXuhWqfY-iwTncud2FUEURn_-VZPBCR5X-xQt4d7iUQITFS4DckVHe1tWbTe8f1dStqlRvBlmjxuOhSG9zRTzlLqEi3Yc88pEw0AQfpOBYRvK7rQ.jpg",
+              link: "https://t.me/bastanagganoN1NT3ND0",
+              ru: {
+                  title: "Баста",
+                  desc: "Главный канал ценителей Басты, Ноггано и Nintendo. Все культовые проекты в одном месте."
+              },
+              en: {
+                  title: "Basta",
+                  desc: "The primary hub for fans of Basta, Noggano, and N1NT3ND0. All iconic projects combined in one place."
+              },
+              uz: {
+                  title: "Basta",
+                  desc: "Basta, Noggano va N1NT3ND0 muxlislari uchun asosiy makon. Barcha afsonaviy loyihalar bir joyda."
+              }
+          },
+          {
+              img: "https://cdn4.telesco.pe/file/csSvgSfByEpPuz11XrsRx1KdV35PNGHJNtXG2YQ08DzRK1oloH-VwP-fC3tTr52D8keDgh3s_94ElOSQxnTiSKusTnltb7i0BxUYz2hYxin67Joa6V2HosHEgQ4SCk1GkcK0ItyGwIdOhx9eUGQXVK1QYeqqS3G9rvjqgjqns3W6eGQrwtcYu2q1HeFqH0_PJ_j4RO9kbDCDiUs3AxTOn5tPODcV9pzi100bCUJ-6fUF8EdX_zEfhDV-eRI4p691_7IY6WNzijLSRrT-3ygYGN6tvi5Zs8j-vM49xQJK5rJ8WXAjlEsw46jh0zr0L1q2xW6xjniXZP6ZxYD9g1SIKg.jpg", 
+              link: "https://t.me/myclassicaltunes",
+              ru: {
+                  title: "MyClassicalTunes",
+                  desc: "Мир бессмертных шедевров: от Вивальди до Шопена. Уютное пространство с глубокой, вдохновляющей и успокаивающей классической музыкой на любой день."
+              },
+              en: {
+                  title: "MyClassicalTunes",
+                  desc: "The realm of immortal masterpieces: from Vivaldi to Chopin. A cozy space with deep, inspirational, and calming classical music for any day."
+              },
+              uz: {
+                  title: "MyClassicalTunes",
+                  desc: "O'lmas durdonalar olami: Vivaldi dan Shopengacha. Har qanday kun uchun chuqur, ilhomlantiruvchi va tinchlantiruvchi klassik musiqa maskani."
+              }
+          }
+      ];
+
+      // =========================================================
+      // ФУНКЦИЯ ОБНОВЛЕНИЯ ВСЕХ ТЕКСТОВ НА САЙТЕ (ЯЗЫК) 🌍
+      // =========================================================
+      function updateLanguageUI() {
+          const t = translations[currentLang];
+
+          document.getElementById('nav-channels-link').textContent = t.navChannels;
+          document.getElementById('nav-contact-link').textContent = t.navContact;
+          document.getElementById('theme-label').textContent = t.themeLabel;
+          document.getElementById('section-title').textContent = t.sectionTitle;
+          document.getElementById('contact-title').textContent = t.contactTitle;
+          
+          document.getElementById('user-name').placeholder = t.namePlaceholder;
+          document.getElementById('user-telegram').placeholder = t.tgPlaceholder;
+          document.getElementById('user-message').placeholder = t.msgPlaceholder;
+          
+          const submitBtn = document.getElementById('submit-btn');
+          if (!submitBtn.disabled) {
+              submitBtn.textContent = t.btnSend;
+          }
+
+          const langToggleBtn = document.getElementById('lang-toggle');
+          if (currentLang === 'ru') {
+              langToggleBtn.innerHTML = langFlags.en;
+          } else if (currentLang === 'en') {
+              langToggleBtn.innerHTML = langFlags.uz;
+          } else {
+              langToggleBtn.innerHTML = langFlags.ru;
+          }
+
+          renderChannels();
+      }
+
+      // ФУНКЦИЯ РЕНДЕРА КАРТОЧЕК С НОВЫМИ ССЫЛКАМИ НА КАРТИНКИ
+      function renderChannels() {
+          const container = document.getElementById('channels-container');
+          container.innerHTML = ""; 
+
+          // Официальный векторный логотип Telegram (белый самолетик)
+          const tgIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" style="fill: currentColor; vertical-align: middle;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1 .22-1.58.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.53-1.39.51-.46-.01-1.33-.26-1.99-.48-.8-.27-1.44-.42-1.39-.89.03-.25.38-.51 1.07-.78 4.19-1.82 6.99-3.02 8.39-3.6 3.99-1.66 4.82-1.95 5.36-1.96.12 0 .39.03.57.18.15.12.19.29.21.41-.02.11-.01.23-.02.34z"/></svg>`;
+
+          for (let i = 0; i < myTelegramChannels.length; i++) {
+              const currentChannel = myTelegramChannels[i];
+              const langData = currentChannel[currentLang]; 
+
+              const cardHtml = `
+                  <div class="channel-card" style="animation-delay: ${i * 0.2}s">
+                      <img src="${currentChannel.img}" alt="avatar" class="channel-avatar">
+                      <div class="channel-info">
+                          <h2>${langData.title}</h2>
+                          <p class="channel-desc">${langData.desc}</p>
+                          <a href="${currentChannel.link}" target="_blank" class="my-button">
+                              ${tgIconSvg} 
+                              <span>${translations[currentLang].btnGo}</span>
+                          </a>
+                      </div> 
+                  </div>
+              `;
+              container.innerHTML += cardHtml;
+          }
+      }
+
+      const langToggleBtn = document.getElementById('lang-toggle');
+      langToggleBtn.addEventListener('click', () => {
+          langToggleBtn.classList.add('rotate-lang');
+          
+          setTimeout(() => {
+              langToggleBtn.classList.remove('rotate-lang');
+          }, 400);
+
+          if (currentLang === 'ru') {
+              currentLang = 'en';
+          } else if (currentLang === 'en') {
+              currentLang = 'uz';
+          } else {
+              currentLang = 'ru';
+          }
+          
+          localStorage.setItem('userLang', currentLang); 
+          updateLanguageUI();
+      });
+
+      // =========================================================
+      // ЛОГИКА ТЕМ С СОХРАНЕНИЕМ (LOCALSTORAGE) 💾
+      // =========================================================
       const themeBtn = document.getElementById('theme-toggle');
       const themes = ['default', 'light', 'dark'];
-      let currentThemeIndex = 0;
+      
+      let savedThemeIndex = localStorage.getItem('userThemeIndex');
+      let currentThemeIndex = savedThemeIndex !== null ? parseInt(savedThemeIndex) : 0;
+
+      function applyTheme(index) {
+          const currentTheme = themes[index];
+          document.body.classList.remove('light-theme', 'dark-theme');
+
+          if (currentTheme === 'default') { themeBtn.textContent = '🍷'; } 
+          else if (currentTheme === 'light') { document.body.classList.add('light-theme'); themeBtn.textContent = '☀️'; } 
+          else if (currentTheme === 'dark') { document.body.classList.add('dark-theme'); themeBtn.textContent = '🌙'; }
+      }
+
+      applyTheme(currentThemeIndex);
 
       themeBtn.addEventListener('click', () => {
           currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-          const currentTheme = themes[currentThemeIndex];
+          localStorage.setItem('userThemeIndex', currentThemeIndex);
+          applyTheme(currentThemeIndex);
+      });
 
-          document.body.classList.remove('light-theme', 'dark-theme');
+      updateLanguageUI();
 
-          if (currentTheme === 'default') {
-              themeBtn.textContent = '🍷';
-          } 
-          else if (currentTheme === 'light') {
-              document.body.classList.add('light-theme');
-              themeBtn.textContent = '☀️';
-          } 
-          else if (currentTheme === 'dark') {
-              document.body.classList.add('dark-theme');
-              themeBtn.textContent = '🌙';
-          }
+      // =========================================================
+      // ОТПРАВКА ФОРМЫ В ТЕЛЕГРАМ ✈️
+      // =========================================================
+      const tgForm = document.getElementById('tg-form');
+
+      tgForm.addEventListener('submit', function(e) {
+          e.preventDefault(); 
+          const submitBtn = document.getElementById('submit-btn');
+          const t = translations[currentLang];
+
+          const name = document.getElementById('user-name').value;
+          const telegram = document.getElementById('user-telegram').value;
+          const message = document.getElementById('user-message').value;
+
+          let textMessage = `🔔 <b>Новое сообщение с сайта портфолио!</b>\n\n`;
+          textMessage += `👤 <b>Имя:</b> ${name}\n`;
+          textMessage += `✈️ <b>Telegram:</b> ${telegram}\n`;
+          textMessage += `💬 <b>Сообщение:</b> ${message}`;
+
+          submitBtn.textContent = t.btnSending;
+          submitBtn.disabled = true;
+
+          const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+
+          fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                  chat_id: TELEGRAM_CHAT_ID,
+                  parse_mode: 'html', 
+                  text: textMessage
+              })
+          })
+          .then(response => {
+              if (response.ok) {
+                  alert(t.alertSuccess);
+                  tgForm.reset(); 
+              } else {
+                  alert(t.alertError);
+              }
+          })
+          .catch(error => {
+              console.error('Ошибка:', error);
+              alert(t.alertNetwork);
+          })
+          .finally(() => {
+              submitBtn.textContent = t.btnSend;
+              submitBtn.disabled = false;
+          });
       });
   </script>
 </body>
